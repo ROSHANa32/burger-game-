@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Burger Ready! — Idle Burger Shop</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="game-wrap">
+    <canvas id="game"></canvas>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div class="hud-pill" id="money-pill">
+        <span class="coin">🪙</span>
+        <span id="money">0</span>
+      </div>
+      <div class="hud-pill" id="level-pill">
+        <span>Lv</span>
+        <span id="level">1</span>
+      </div>
+    </div>
+
+    <!-- Tap-to-cook button -->
+    <button id="cook-btn" class="cook-btn">
+      <span class="cook-emoji">🍔</span>
+      <span class="cook-label">COOK</span>
+    </button>
+
+    <!-- Upgrade panel -->
+    <div id="shop-panel" class="shop-panel">
+      <div class="shop-header">
+        <span>UPGRADES</span>
+        <button id="shop-close">✕</button>
+      </div>
+      <div id="shop-list" class="shop-list"></div>
+    </div>
+
+    <button id="shop-toggle" class="shop-toggle">🛒 UPGRADES</button>
+
+    <!-- Floating text layer -->
+    <div id="float-layer"></div>
+
+    <!-- Welcome / offline earnings modal -->
+    <div id="modal" class="modal hidden">
+      <div class="modal-card">
+        <h1 id="modal-title">🍔 Burger Ready!</h1>
+        <p id="modal-body">Tap COOK to make burgers, then serve your hungry customers!</p>
+        <button id="modal-btn">LET'S COOK!</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
