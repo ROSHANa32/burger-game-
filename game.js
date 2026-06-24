@@ -98,8 +98,12 @@
     };
   }
   function customerSlots() {
-    const slots = [], n = S.seats, margin = 56, usable = W - margin*2;
-    for (let i=0;i<n;i++){ const t = n===1?0.5:i/(n-1); slots.push(margin+usable*t); }
+    const n = S.seats, slots = [];
+    // Keep customers inside a centered band so they never sit behind the
+    // SHOP button (right) or run off the edges on wide screens.
+    const band = Math.min(W * 0.72, 520);
+    const left = (W - band) / 2;
+    for (let i=0;i<n;i++){ const t = n===1?0.5:i/(n-1); slots.push(left + band * t); }
     return slots;
   }
   function layoutCustomers() {
@@ -200,7 +204,7 @@
     drawPoster(W*0.88, wallH*0.36, 60, 80, "🥤");
     drawPlant(W*0.06, wallH);
     drawPlant(W*0.94, wallH);
-    drawMenuBoard(W*0.5, Math.max(64, wallH*0.18));
+    drawMenuBoard(W*0.5, Math.max(124, wallH*0.16));
 
     g = ctx.createLinearGradient(0,wallH,0,H);
     g.addColorStop(0,"#d98a4f"); g.addColorStop(1,"#9a5a30");
