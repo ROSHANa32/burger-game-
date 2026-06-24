@@ -114,19 +114,24 @@ canvas {
 /* ---------- Shop toggle ---------- */
 .shop-toggle {
   position: absolute;
-  bottom: max(44px, calc(env(safe-area-inset-bottom) + 18px));
+  bottom: max(48px, calc(env(safe-area-inset-bottom) + 22px));
   right: 16px;
-  background: linear-gradient(180deg, #7a55d6, #5b3da8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  background: linear-gradient(180deg, #8a64ec, #5b3da8);
   color: #fff;
-  border: none;
-  border-radius: 18px;
-  padding: 13px 15px;
+  border: 3px solid #fff;
+  border-radius: 20px;
+  padding: 10px 12px;
   font-weight: 800;
-  font-size: 15px;
-  box-shadow: 0 6px 0 #3c2873, 0 8px 14px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.25);
+  box-shadow: 0 6px 0 #3c2873, 0 8px 14px rgba(0,0,0,0.3);
   cursor: pointer;
   z-index: 12;
 }
+.shop-toggle .st-emoji { font-size: 24px; line-height: 1; }
+.shop-toggle .st-label { font-size: 12px; letter-spacing: 1px; }
 .shop-toggle:active { transform: translateY(4px); box-shadow: 0 2px 0 #3c2873; }
 
 /* ---------- Shop panel ---------- */
@@ -257,4 +262,137 @@ canvas {
   .cook-emoji { font-size: 38px; }
   .cook-label { font-size: 15px; }
   .hud-pill { font-size: 18px; padding: 7px 14px; }
+}
+
+
+/* ---------- Hint banner (tutorial) ---------- */
+.hint {
+  position: absolute;
+  top: max(70px, calc(env(safe-area-inset-top) + 56px));
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #fff, #fff2cf);
+  color: #b5390f;
+  font-weight: 800;
+  font-size: 17px;
+  padding: 11px 20px;
+  border-radius: 22px;
+  border: 3px solid #ffb347;
+  box-shadow: 0 6px 0 rgba(181,57,15,0.25), 0 8px 18px rgba(0,0,0,0.25);
+  z-index: 18;
+  pointer-events: none;
+  text-align: center;
+  max-width: 86vw;
+  animation: hintBob 1.4s ease-in-out infinite;
+}
+.hint.hidden { display: none; }
+@keyframes hintBob {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%     { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* ---------- Title / start screen ---------- */
+.title-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255,210,120,0.55), rgba(0,0,0,0) 60%),
+    linear-gradient(180deg, #ff9a3c 0%, #e8431f 100%);
+  animation: fadeIn 0.4s ease;
+}
+.title-screen.hidden { display: none; }
+.title-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+.title-logo { position: relative; margin-bottom: 6px; }
+.logo-burger {
+  font-size: 92px;
+  display: block;
+  filter: drop-shadow(0 8px 10px rgba(0,0,0,0.35));
+  animation: logoFloat 2.6s ease-in-out infinite;
+}
+@keyframes logoFloat {
+  0%,100% { transform: translateY(0) rotate(-3deg); }
+  50%     { transform: translateY(-12px) rotate(3deg); }
+}
+.logo-text {
+  font-size: 56px;
+  line-height: 0.92;
+  color: #fff;
+  letter-spacing: 2px;
+  margin-top: 6px;
+  text-shadow:
+    0 4px 0 #b5390f,
+    0 7px 0 rgba(0,0,0,0.2),
+    0 10px 16px rgba(0,0,0,0.4);
+  -webkit-text-stroke: 2px #b5390f;
+}
+.logo-text span { color: #ffe14d; -webkit-text-stroke: 2px #b5390f; }
+.title-tag {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  margin: 16px 0 28px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.35);
+}
+.play-btn {
+  background: linear-gradient(180deg, #6dec84, #28a64a);
+  color: #fff;
+  border: 4px solid #fff;
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: 2px;
+  padding: 18px 56px;
+  border-radius: 26px;
+  cursor: pointer;
+  box-shadow: 0 9px 0 #1c7a36, 0 14px 22px rgba(0,0,0,0.4);
+  animation: playPulse 1.3s ease-in-out infinite;
+}
+@keyframes playPulse {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.06); }
+}
+.play-btn:active { transform: translateY(6px) scale(1); box-shadow: 0 3px 0 #1c7a36; }
+.reset-btn {
+  margin-top: 22px;
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.5);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+}
+.reset-btn:active { background: rgba(255,255,255,0.32); }
+
+@media (max-height: 560px) {
+  .logo-burger { font-size: 64px; }
+  .logo-text { font-size: 40px; }
+  .play-btn { font-size: 26px; padding: 14px 44px; }
+}
+
+
+/* ---------- Tutorial guiding hand ---------- */
+.tut-hand {
+  position: absolute;
+  font-size: 46px;
+  z-index: 19;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,0.4));
+  animation: handTap 0.9s ease-in-out infinite;
+}
+.tut-hand.hidden { display: none; }
+@keyframes handTap {
+  0%,100% { transform: translate(-50%, -50%) scale(1); }
+  50%     { transform: translate(-50%, -30%) scale(1.18); }
 }

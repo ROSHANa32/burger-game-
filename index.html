@@ -28,9 +28,14 @@
         <span id="money">0</span>
       </div>
       <div class="hud-pill" id="level-pill">
-        <span>Lv</span>
+        <span>⭐</span>
         <span id="level">1</span>
       </div>
+    </div>
+
+    <!-- Big friendly hint banner (tutorial) -->
+    <div id="hint" class="hint hidden">
+      <span id="hint-text">Tap the big button to cook a burger!</span>
     </div>
 
     <!-- Tap-to-cook button -->
@@ -42,23 +47,39 @@
     <!-- Upgrade panel -->
     <div id="shop-panel" class="shop-panel">
       <div class="shop-header">
-        <span>UPGRADES</span>
+        <span>🛒 UPGRADES</span>
         <button id="shop-close">✕</button>
       </div>
       <div id="shop-list" class="shop-list"></div>
     </div>
 
-    <button id="shop-toggle" class="shop-toggle">🛒 UPGRADES</button>
+    <button id="shop-toggle" class="shop-toggle">
+      <span class="st-emoji">🛒</span>
+      <span class="st-label">SHOP</span>
+    </button>
 
     <!-- Floating text layer -->
     <div id="float-layer"></div>
 
-    <!-- Welcome / offline earnings modal -->
+    <!-- Title / start screen -->
+    <div id="title-screen" class="title-screen">
+      <div class="title-inner">
+        <div class="title-logo">
+          <span class="logo-burger">🍔</span>
+          <h1 class="logo-text">BURGER<br><span>READY!</span></h1>
+        </div>
+        <p class="title-tag">Cook • Serve • Earn • Grow your shop!</p>
+        <button id="play-btn" class="play-btn">▶ PLAY</button>
+        <button id="reset-btn" class="reset-btn">Reset progress</button>
+      </div>
+    </div>
+
+    <!-- Welcome back / message modal -->
     <div id="modal" class="modal hidden">
       <div class="modal-card">
-        <h1 id="modal-title">🍔 Burger Ready!</h1>
-        <p id="modal-body">Tap COOK to make burgers, then serve your hungry customers!</p>
-        <button id="modal-btn">LET'S COOK!</button>
+        <h1 id="modal-title">🍔 Welcome back!</h1>
+        <p id="modal-body"></p>
+        <button id="modal-btn">COLLECT</button>
       </div>
     </div>
   </div>
