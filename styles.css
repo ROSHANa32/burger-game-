@@ -18,15 +18,22 @@ html, body {
   overscroll-behavior: none;
   touch-action: manipulation;
 }
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 #game-wrap {
   position: relative;
-  width: 100vw;
+  width: 100%;
+  max-width: 480px;
   height: 100vh;
   height: 100dvh;
   margin: 0 auto;
   overflow: hidden;
   background: linear-gradient(180deg, #ffd56b 0%, #ffb347 100%);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
 }
 
 canvas {

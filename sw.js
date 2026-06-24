@@ -1,5 +1,5 @@
 /* Service worker for Burger Ready! — offline support (cache-first). */
-const CACHE = "burger-ready-v2";
+const CACHE = "burger-ready-v3";
 const ASSETS = [
   "./",
   "./index.html",

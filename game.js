@@ -170,9 +170,11 @@
   function bigConfetti(){ for(let k=0;k<6;k++) confetti(W*(0.15+0.14*k), H*0.3); }
 
   // ---------- Layout ----------
-  const counterY = () => Math.round(H * 0.66);
+  const counterY = () => Math.round(H * 0.62);
   const chefStationY = () => counterY() - 110;
-  const custYPos = () => counterY() + 92;
+  const custYPos = () => counterY() + Math.min(96, (H - counterY()) * 0.42);
+  // global kitchen art scale so nothing is oversized on small/large screens
+  const kScale = () => Math.max(0.55, Math.min(1.05, Math.min(W, H) / 560));
 
   function roundRect(x,y,w,h,r){
     if (typeof r === "number") r = {tl:r,tr:r,br:r,bl:r};
@@ -200,11 +202,12 @@
     ctx.fillStyle=rg; ctx.fillRect(0,0,W,wallH);
 
     drawStringLights();
-    drawPoster(W*0.12, wallH*0.36, 60, 80, "🍟");
-    drawPoster(W*0.88, wallH*0.36, 60, 80, "🥤");
+    const ks = kScale();
+    drawPoster(W*0.13, wallH*0.34, 56*ks+24, 76*ks+24, "🍟");
+    drawPoster(W*0.87, wallH*0.34, 56*ks+24, 76*ks+24, "🥤");
     drawPlant(W*0.06, wallH);
     drawPlant(W*0.94, wallH);
-    drawMenuBoard(W*0.5, Math.max(124, wallH*0.16));
+    drawMenuBoard(W*0.5, Math.max(96, H*0.13), ks);
 
     g = ctx.createLinearGradient(0,wallH,0,H);
     g.addColorStop(0,"#d98a4f"); g.addColorStop(1,"#9a5a30");
@@ -242,8 +245,8 @@
     for(let i=-2;i<=2;i++){ ctx.save(); ctx.rotate(i*0.32 + Math.sin(time*1.5+i)*0.05); roundRect(-7,-58,14,40,7); ctx.fill(); outline(3); ctx.restore(); }
     ctx.restore();
   }
-  function drawMenuBoard(cx,cy){
-    ctx.save(); ctx.translate(cx,cy);
+  function drawMenuBoard(cx,cy,s){
+    ctx.save(); ctx.translate(cx,cy); ctx.scale(s,s);
     roundRect(-140,-42,280,92,14); ctx.fillStyle="#2e2016"; ctx.fill(); outline(4);
     ctx.fillStyle="#ffd95a"; ctx.font="800 24px 'Baloo 2',sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
     ctx.fillText("🍔 BURGER MENU 🍔",0,-16);
@@ -264,15 +267,17 @@
     drawTray(W/2, y-18);
   }
   function drawTray(cx, topY){
-    const max=S.trayMax, slotW=Math.min(48,(W-90)/Math.max(max,1)), totalW=slotW*max;
-    roundRect(cx-totalW/2-12, topY-26, totalW+24, 26, 9);
-    let g=ctx.createLinearGradient(0,topY-26,0,topY); g.addColorStop(0,"#dfe2ee"); g.addColorStop(1,"#a8adc2");
+    const max=S.trayMax;
+    const slotW=Math.min(W*0.17, (W-60)/Math.max(max,1));
+    const totalW=slotW*max;
+    roundRect(cx-totalW/2-10, topY-24, totalW+20, 24, 9);
+    let g=ctx.createLinearGradient(0,topY-24,0,topY); g.addColorStop(0,"#dfe2ee"); g.addColorStop(1,"#a8adc2");
     ctx.fillStyle=g; ctx.fill(); outline(3);
     const startX=cx-totalW/2+slotW/2;
     for(let i=0;i<max;i++){
       const x=startX+i*slotW;
-      if(i<trayCount) drawBurger(x, topY-13, slotW*0.44);
-      else { ctx.save(); ctx.globalAlpha=0.16; ctx.fillStyle="#5a4a3a"; ctx.beginPath(); ctx.ellipse(x,topY-8,slotW*0.3,5,0,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+      if(i<trayCount) drawBurger(x, topY-12, slotW*0.4);
+      else { ctx.save(); ctx.globalAlpha=0.16; ctx.fillStyle="#5a4a3a"; ctx.beginPath(); ctx.ellipse(x,topY-8,slotW*0.28,4,0,0,Math.PI*2); ctx.fill(); ctx.restore(); }
     }
   }
 
@@ -304,10 +309,10 @@
   }
 
   // ---- Chef ----
-  function drawChef(cx,baseY){
+  function drawChef(cx,baseY,s){
     ctx.save();
     const bob=Math.sin(time*3)*3, arm=Math.sin(time*6)*0.5;
-    ctx.translate(cx, baseY+bob);
+    ctx.translate(cx, baseY+bob); ctx.scale(s,s);
     ctx.fillStyle="rgba(0,0,0,0.16)"; ctx.beginPath(); ctx.ellipse(0,66,40,9,0,0,Math.PI*2); ctx.fill();
     ctx.fillStyle="#3a3a3a"; roundRect(-46,42,92,16,5); ctx.fill();
     ctx.fillStyle="#555"; for(let i=-40;i<40;i+=10) ctx.fillRect(i,44,3,12);
@@ -337,7 +342,7 @@
 
   // ---- Customer ----
   function drawCustomer(c){
-    const y = custYPos(), sc = c.scale;
+    const y = custYPos(), sc = c.scale * kScale();
     const bob=Math.sin(c.bounce)*4*(c.state==="waiting"?1:0.4);
     const walk = c.state!=="waiting" ? Math.sin(c.walkPhase)*3 : 0;
 
@@ -380,8 +385,8 @@
     if(c.happy>0) drawHearts(c, y+bob);
   }
   function drawOrderBubble(c,y){
-    const remaining=c.want-c.got, pulse=1+Math.sin(time*4)*0.05;
-    ctx.save(); ctx.translate(c.x, y-58); ctx.scale(c.scale*pulse, c.scale*pulse);
+    const remaining=c.want-c.got, pulse=1+Math.sin(time*4)*0.05, s=c.scale*kScale()*pulse;
+    ctx.save(); ctx.translate(c.x, y-58*c.scale*kScale()); ctx.scale(s, s);
     roundRect(-40,-25,80,40,13); ctx.fillStyle="#ffffff"; ctx.fill(); outline(3);
     ctx.beginPath(); ctx.moveTo(-8,14); ctx.lineTo(8,14); ctx.lineTo(0,26); ctx.closePath(); ctx.fillStyle="#fff"; ctx.fill();
     drawBurger(-12,-5,12);
@@ -474,7 +479,9 @@
     ctx.clearRect(0,0,W,H);
     drawBackground();
     customers.forEach(drawCustomer);
-    drawChef(W/2, chefStationY());
+    const ks = kScale();
+    // place chef so its base sits just above the counter top
+    drawChef(W/2, counterY() - 6 - 66*ks, ks);
     drawCounter();
     drawParticles();
   }
