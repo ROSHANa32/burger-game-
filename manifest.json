@@ -1,0 +1,19 @@
+{
+  "name": "Burger Ready! — Idle Burger Shop",
+  "short_name": "Burger Ready",
+  "description": "Cook burgers, serve hungry customers, earn coins and grow your burger empire in this cute idle restaurant game.",
+  "id": "/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#ffb347",
+  "theme_color": "#e8431f",
+  "categories": ["games", "entertainment"],
+  "lang": "en",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
